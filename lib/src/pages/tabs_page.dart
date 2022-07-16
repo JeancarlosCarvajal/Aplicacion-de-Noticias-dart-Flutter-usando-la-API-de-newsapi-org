@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsapp/src/services/news_service.dart';
 import 'package:provider/provider.dart';
 
 class TabsPage extends StatelessWidget {
@@ -30,7 +31,7 @@ class _Navegacion extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: navegacionModel.paginaActual,
       onTap: (i) => navegacionModel.paginaActual = i, // tenia print('Soy la pagina: $i')
-      items: [
+      items: const [
         BottomNavigationBarItem(icon: Icon(Icons.person_outline_outlined), label: 'Para ti'),
         BottomNavigationBarItem(icon: Icon(Icons.public), label: 'Encabezados'),
 
@@ -47,6 +48,7 @@ class _Paginas extends StatelessWidget {
   Widget build(BuildContext context) {
     // accedemos al provider
     final navegacionModel = Provider.of<_NavegacionModel>(context);
+    // final newsService = Provider.of<NewsService>(context); // para pruebas 
 
     return PageView( // es parecido al pasar de un libro, como ojear un libro
       // physics: const BouncingScrollPhysics(),
