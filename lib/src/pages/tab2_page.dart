@@ -29,7 +29,7 @@ class Tab2Page extends StatelessWidget {
           : Column(
           children: [
 
-            _ListaCategorias(), 
+            const _ListaCategorias(), 
 
             Expanded(child: ListaNoticias(noticias: newsService.getArticulosCategoriaSeleccionada!))
 

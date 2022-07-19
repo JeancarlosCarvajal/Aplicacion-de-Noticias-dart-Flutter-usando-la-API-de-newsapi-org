@@ -59,7 +59,7 @@ class NewsService extends ChangeNotifier {
     // Url al cual le voy a pedir la informacion
     final url = Uri.https(_baseUrlNews, '/v2/top-headlines', {
       'apiKey': _apiKey,
-      'country': 'us'
+      'country': 've'
     });
     final resp = await http.get(url);
 
@@ -85,7 +85,7 @@ class NewsService extends ChangeNotifier {
     // Url al cual le voy a pedir la informacion
     final url = Uri.https(_baseUrlNews, '/v2/top-headlines', {
       'apiKey': _apiKey,
-      'country': 'us',
+      'country': 've',
       'category': category,
     });
     final resp = await http.get(url);

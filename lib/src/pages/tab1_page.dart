@@ -22,11 +22,13 @@ class _Tab1PageState extends State<Tab1Page> with AutomaticKeepAliveClientMixin 
     final headLines = Provider.of<NewsService>(context).headLines;
     // newsService.headLines
 
-    return Scaffold(
-      body: (headLines.isEmpty)
-      ? const Center(
-        child: CircularProgressIndicator(),
-      ) : ListaNoticias(noticias: headLines)
+    return SafeArea(
+      child: Scaffold(
+        body: (headLines.isEmpty)
+        ? const Center(
+          child: CircularProgressIndicator(),
+        ) : ListaNoticias(noticias: headLines)
+      ),
     );
   }
   
