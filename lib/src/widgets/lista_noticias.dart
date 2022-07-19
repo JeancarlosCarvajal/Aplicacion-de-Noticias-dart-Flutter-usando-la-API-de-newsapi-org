@@ -48,9 +48,63 @@ class _Noticia extends StatelessWidget {
 
         _TarjetaTitulo(noticia: noticia),
 
-        _TarjetaImagen(noticia: noticia)
+        _TarjetaImagen(noticia: noticia),
+
+        _TarjetaBody(noticia: noticia),
+
+        const Divider(height: 10),
+
+        _TarjetaBotones()
 
       ],
+    );
+  }
+}
+
+class _TarjetaBotones extends StatelessWidget {
+ 
+  const _TarjetaBotones({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          RawMaterialButton(
+            onPressed: (){},
+            fillColor: AppTheme.primary,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: const Icon(Icons.star_border),
+          ),
+          const SizedBox(width: 10),
+          RawMaterialButton(
+            onPressed: (){},
+            fillColor: Colors.blue,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: const Icon(Icons.more),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _TarjetaBody extends StatelessWidget {
+  final Article noticia;
+
+  const _TarjetaBody({
+    Key? key, 
+    required this.noticia,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text(noticia.description ?? ''),
     );
   }
 }
@@ -68,15 +122,21 @@ class _TarjetaImagen extends StatelessWidget {
   @override
   Widget build(BuildContext context) { 
     return Container(
-      child: (noticia.urlToImage != null) 
-      ? FadeInImage( 
-        placeholder: const AssetImage('assets/img/giphy.gif'),
-        image: NetworkImage(noticia.urlToImage),
-        imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-          // print('Error en URL: ${noticia.urlToImage}');
-          return const Image(image: AssetImage('assets/img/no-image.png'));
-        }
-      ) : const Image(image: AssetImage('assets/img/no-image.png'))
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+        child: Container(
+          child: (noticia.urlToImage != null) 
+          ? FadeInImage( 
+            placeholder: const AssetImage('assets/img/giphy.gif'),
+            image: NetworkImage(noticia.urlToImage),
+            imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+              // print('Error en URL: ${noticia.urlToImage}');
+              return const Image(image: AssetImage('assets/img/no-image.png'));
+            }
+          ) : const Image(image: AssetImage('assets/img/no-image.png'))
+        ),
+      ),
     ); 
   }
 }
