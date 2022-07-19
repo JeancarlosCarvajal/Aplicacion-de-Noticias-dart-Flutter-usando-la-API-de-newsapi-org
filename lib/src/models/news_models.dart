@@ -39,7 +39,7 @@ class Article {
         required this.title,
         this.description,
         required this.url,
-        required this.urlToImage,
+        this.urlToImage,
         required this.publishedAt,
         this.content,
     });
@@ -49,7 +49,7 @@ class Article {
     String title;
     String? description;
     String url;
-    String urlToImage;
+    String? urlToImage;
     DateTime publishedAt;
     String? content;
 

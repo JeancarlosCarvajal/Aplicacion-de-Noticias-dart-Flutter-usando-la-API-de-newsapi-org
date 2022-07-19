@@ -16,6 +16,9 @@ class _Tab1PageState extends State<Tab1Page> with AutomaticKeepAliveClientMixin 
   @override
   Widget build(BuildContext context) {
 
+    // TODO ojo quitar en produccion
+    // return Column(children: [Text('Testing evita recarga de API')]);
+
     final headLines = Provider.of<NewsService>(context).headLines;
     // newsService.headLines
 

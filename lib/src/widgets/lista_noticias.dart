@@ -15,6 +15,9 @@ class ListaNoticias extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: const BouncingScrollPhysics(), // para que se vea bien en android IOS de igual forma
+      scrollDirection: Axis.vertical, // sino agrego esto me da este error = "Vertical viewport was given unbounded height"
+      shrinkWrap: true, // sino agrego esto me da este error = "Vertical viewport was given unbounded height"
       itemCount: noticias.length,
       itemBuilder: (BuildContext context, int index){
 
@@ -129,7 +132,7 @@ class _TarjetaImagen extends StatelessWidget {
           child: (noticia.urlToImage != null) 
           ? FadeInImage( 
             placeholder: const AssetImage('assets/img/giphy.gif'),
-            image: NetworkImage(noticia.urlToImage),
+            image: NetworkImage(noticia.urlToImage!),
             imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
               // print('Error en URL: ${noticia.urlToImage}');
               return const Image(image: AssetImage('assets/img/no-image.png'));
