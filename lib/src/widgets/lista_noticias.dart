@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:newsapp/src/models/news_models.dart';
-import 'package:newsapp/src/theme/tema.dart';
+import 'package:newsapp/src/models/news_models.dart'; 
+import 'package:newsapp/src/theme/tema.dart'; 
+
 
 class ListaNoticias extends StatelessWidget {
 
@@ -37,7 +38,9 @@ class _Noticia extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
+
+    // print('Aqui esta la del error: $index');
     return Column(
       children: [
 
@@ -47,7 +50,6 @@ class _Noticia extends StatelessWidget {
 
         _TarjetaImagen(noticia: noticia)
 
-
       ],
     );
   }
@@ -56,19 +58,29 @@ class _Noticia extends StatelessWidget {
 class _TarjetaImagen extends StatelessWidget {
 
   final Article noticia;
-
+ 
   const _TarjetaImagen({
     Key? key, 
-    required this.noticia,
+    required this.noticia,  
   }) : super(key: key);
 
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Container(
-      child: Text('Hola Mundo'),
-    );
+      child: (noticia.urlToImage != null) 
+      ? FadeInImage( 
+        placeholder: const AssetImage('assets/img/giphy.gif'),
+        image: NetworkImage(noticia.urlToImage),
+        imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+          // print('Error en URL: ${noticia.urlToImage}');
+          return const Image(image: AssetImage('assets/img/no-image.png'));
+        }
+      ) : const Image(image: AssetImage('assets/img/no-image.png'))
+    ); 
   }
 }
+ 
 
 class _TarjetaTitulo extends StatelessWidget {
   
@@ -82,8 +94,8 @@ class _TarjetaTitulo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Text(noticia.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Text(noticia.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
     );
   }
 }

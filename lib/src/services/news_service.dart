@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newsapp/src/api_key/apis_key.dart';
 import 'package:newsapp/src/models/news_models.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http; 
 
 
 const _baseUrlNews = 'newsapi.org';
@@ -32,7 +32,5 @@ class NewsService extends ChangeNotifier {
     notifyListeners();
 
     // print(newsResponce.articles[1].content);
-
   }
-
 }
