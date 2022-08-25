@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsapp/src/services/news_service.dart';
+import 'package:newsapp/src/share_preferences/preferences.dart';
 import 'package:newsapp/src/widgets/lista_noticias.dart';
 import 'package:provider/provider.dart';
 
@@ -18,9 +19,16 @@ class _Tab1PageState extends State<Tab1Page> with AutomaticKeepAliveClientMixin 
 
     // TODO ojo quitar en produccion
     // return Column(children: [Text('Testing evita recarga de API')]);
-
-    final headLines = Provider.of<NewsService>(context).headLines;
-    // newsService.headLines
+    print('jean: Aqui toy');
+    
+    final country = Preferences.getCountry;  
+    final newsService = Provider.of<NewsService>(context); 
+    // if(newsService.headLines.isEmpty){
+      print('jean: $country');
+      // return Text( 'test' );
+      newsService.getTopHeadLines(country);
+    // }
+    final headLines = newsService.headLines;
 
     return SafeArea(
       child: Scaffold(

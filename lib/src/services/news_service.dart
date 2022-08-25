@@ -3,14 +3,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:newsapp/src/api_key/apis_key.dart';
 import 'package:newsapp/src/models/category_model.dart';
 import 'package:newsapp/src/models/news_models.dart';
-import 'package:http/http.dart' as http; 
+import 'package:http/http.dart' as http;
+import 'package:newsapp/src/share_preferences/preferences.dart'; 
 
 
 const _baseUrlNews = 'newsapi.org';
 const _apiKey = ApisKey.apiNews;
 
 
-class NewsService extends ChangeNotifier {
+class NewsService extends ChangeNotifier { 
+
+  // el pais inicial cargado para compararlo mas adelante al ser modificado en user_country
+  final String selectedCountry = Preferences.getCountry;
 
   List<Article> headLines = [];
 
@@ -33,12 +37,18 @@ class NewsService extends ChangeNotifier {
   // business entertainment general health science sports technology 
 
   NewsService(){
-    this.getTopHeadLines();
-
+    // this.getTopHeadLines(); 
     // barrer categorias para agregar la llave del mapa y tenerlo listo para recibir la lista de articulos
     categories.forEach((item) {
       this.categoryArticles[item.name] = []; // tambien se puede usar new List.empty()
     });
+  }
+ 
+  set getHeaders( String country ) {
+    this._selectectedCategory = country;
+    // llamamos a la API
+    this.getTopHeadLines(country);
+    notifyListeners();
   }
 
   get selectectedCategory => this._selectectedCategory;
@@ -53,39 +63,47 @@ class NewsService extends ChangeNotifier {
   List<Article>? get getArticulosCategoriaSeleccionada => this.categoryArticles[this.selectectedCategory];
 
 
-  Future getTopHeadLines() async  {
+  Future getTopHeadLines(String country) async  {
+    // vaciamos la variable headLines
+    // this.headLines = [];
     print('Cargando Head Lines');
-
+    // final country = Preferences.getCountry; 
     // Url al cual le voy a pedir la informacion
     final url = Uri.https(_baseUrlNews, '/v2/top-headlines', {
       'apiKey': _apiKey,
-      'country': 've'
+      'country': country
     });
-    final resp = await http.get(url);
+    final resp = await http.get(url); 
+    print('jean: $resp');
+    
+    // "{"status":"error","code":"rateLimited",
+    // "message":"You have made too many requests recently. Developer accounts are limited 
+    // to 100 requests over a 24 hour period (50 requests available every 12 hours). 
+    // Please upgrade to a paid plan if you need more requests."}"
 
-    final newsResponce  = NewsResponce.fromJson(resp.body);
-
+    final newsResponce  = NewsResponce.fromJson(resp.body); 
+    print('jean: API llamando a los HeadLines'); 
     this.headLines.addAll(newsResponce.articles);
-    notifyListeners();
-
+    notifyListeners(); 
     // print(newsResponce.articles[1].content);
   }
 
 
   Future getArticlesByCategory(String category) async {
+    final country = Preferences.getCountry;
     print('Cargando categoria: $category');
-
     // evita volver a llamar la Api en caso que ya tenga las categorias almacenadas en el mapa
-    if(!categoryArticles[category]!.isEmpty){
+    if(!categoryArticles[category]!.isEmpty && selectedCountry == country){
       print('Ya he cargado ${categoryArticles[category]!.length} articulos en la Categoria');
       return this.categoryArticles[category];
     }
+    categoryArticles[category] = [];
     print('Tengo ${categoryArticles[category]!.length} articulos en esta Categoria');
 
     // Url al cual le voy a pedir la informacion
     final url = Uri.https(_baseUrlNews, '/v2/top-headlines', {
       'apiKey': _apiKey,
-      'country': 've',
+      'country': country,
       'category': category,
     });
     final resp = await http.get(url);
